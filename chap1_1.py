@@ -33,11 +33,10 @@ class linop(Scene):
         eqn2 = MathTex(" T(","\\vec{v}",") = aT(","\\vec{e_1}",") + bT(","\\vec{e_2}",") ", color=BLACK)
         eqn2.set_color_by_tex("\\vec{e_", RED)
 
-        v = Arrow(axes.c2p(0,0,0), axes.c2p(1,1,0), color=GREEN, buff=0, stroke_width=3.5)
-        e1 = Arrow(axes.c2p(0, 0, 0), axes.c2p(1, 0, 0), color=RED, buff=0, stroke_width=3.5)
-        e2 = Arrow(axes.c2p(0, 0, 0), axes.c2p(0, 1, 0), color=RED, buff=0, stroke_width=3.5)
-        # l = Line(axes.c2p(0,0,0), axes.c2p(1,1,0), color=RED  )
-        dot = Dot(axes.c2p(0,0,0),color=GREEN)
+        v = Vector(axes.c2p(1,1,0), color=GREEN, stroke_width=3.5)
+        e1 = Vector(axes.c2p(1, 0, 0), color=RED, stroke_width=3.5)
+        e2 = Vector(axes.c2p(0, 1, 0), color=RED, stroke_width=3.5)
+
         # Animation
         self.play(Write(eqn1))
         self.wait()
@@ -52,17 +51,49 @@ class linop(Scene):
         self.play(Write(v), Write(e1), Write(e2))
         self.wait()
         M1=np.array([[1, 1], [0, -1]])
+        Ma1 = Matrix( M1).to_corner(LEFT+UP)
+        for bra in Ma1.get_brackets():
+            bra.set_color(BLACK)
+        for e in Ma1.get_entries():
+            e.set_color(BLACK)
+
         M2=np.array([[-1, 0], [2, 1]])
+        Ma2 = Matrix(M2).to_corner(LEFT + UP)
+        for bra in Ma2.get_brackets():
+            bra.set_color(BLACK)
+        for e in Ma2.get_entries():
+            e.set_color(BLACK)
+
         M = np.array([[1, 1], [0, 1]])
-        I = np.linalg.inv(np.dot(M2,M1))
+        Ma = Matrix(M).to_corner(LEFT + UP)
+        for bra in Ma.get_brackets():
+            bra.set_color(BLACK)
+        for e in Ma.get_entries():
+            e.set_color(BLACK)
+
+        I = np.linalg.inv(np.matmul(M2,M1))
+
+        new_e1_label = Matrix([[1], [0]]).scale(0.7).next_to(e1, RIGHT + DOWN) #Automate this somehow
+        new_e2_label = Matrix([[1], [1]]).scale(0.7).next_to(e2, RIGHT+ UP) #Automate
+        for bra in new_e1_label.get_brackets():
+            bra.set_color(BLACK)
+        for e in new_e1_label.get_entries():
+            e.set_color(BLACK)
+        for bra in new_e2_label.get_brackets():
+            bra.set_color(BLACK)
+        for e in new_e2_label.get_entries():
+            e.set_color(BLACK)
+
         self.play(
             axes.animate.apply_matrix( M1),
             e1.animate.apply_matrix(M1),
             e2.animate.apply_matrix(M1),
-            v.animate.apply_matrix(M1)
+            v.animate.apply_matrix(M1),
+            Write(Ma1)
                   )
         self.wait()
         self.play(
+            ReplacementTransform(Ma1,Ma2),
             axes.animate.apply_matrix(M2),
             e1.animate.apply_matrix(M2),
             e2.animate.apply_matrix(M2),
@@ -70,6 +101,7 @@ class linop(Scene):
         )
         self.wait()
         self.play(
+            FadeOut(Ma2),
             axes.animate.apply_matrix(I),
             e1.animate.apply_matrix(I),
             e2.animate.apply_matrix(I),
@@ -78,7 +110,76 @@ class linop(Scene):
         self.wait()
         self.play(FadeOut(v))
         self.play(
+            Write(Ma),
             e1.animate.apply_matrix(M),
-            e2.animate.apply_matrix(M)
+            e2.animate.apply_matrix(M),
+            Write(new_e1_label),
+            Write(new_e2_label)
+        )
+        e1_trans = np.matmul(M,np.array([1,0]))
+        e2_trans = np.matmul(M,np.array([0,1]))
+        new_cord = e1_trans + e2_trans
+        new_v = Vector(axes.c2p(new_cord[0],new_cord[1],0 ), stroke_width=3.5, color=GREEN)
+        new_v_label = Matrix( [[2],[1]]).scale(0.7).next_to(new_v,UP+RIGHT)
+
+        for bra in new_v_label.get_brackets():
+            bra.set_color(BLACK)
+        for e in new_v_label.get_entries():
+            e.set_color(BLACK)
+
+        self.wait()
+        self.play(
+            Write(new_v),
+            Write(new_v_label)
+        )
+
+        self.wait()
+        self.play(
+            FadeOut(axes),
+            FadeOut( e1 ),
+            FadeOut(e2),
+            FadeOut(new_v)
+        )
+        self.wait()
+        self.play(
+            Ma.animate.move_to([0,0,0])
+        )
+        self.play(
+            Ma.get_columns()[0].animate.set_color([PURE_RED, YELLOW_C])
+        )
+        self.play(
+            new_e1_label.animate.move_to(Ma.get_columns()[0]), run_time=1
+        )
+        self.play(
+            FadeOut(new_e1_label), run_time=0.5
+        )
+        self.wait()
+        self.play(
+            Ma.get_columns()[0].animate.set_color(BLACK),
+            Ma.get_columns()[1].animate.set_color([PURE_RED, YELLOW_C])
+        )
+        self.play(
+            new_e2_label.animate.move_to(Ma.get_columns()[1]), run_time=1
+        )
+        self.play(
+            FadeOut(new_e2_label), run_time=0.5
+        )
+
+        v_label = Matrix([[1],[1]])
+        for bra in v_label.get_brackets():
+            bra.set_color(BLACK)
+        for e in v_label.get_entries():
+            e.set_color(BLACK)
+
+
+        eqn3 = VGroup( Ma,v_label.to_corner(DOWN+LEFT),MathTex("=",color=BLACK).to_corner(UP+RIGHT), new_v_label )
+        self.play(
+            FadeIn( eqn3[1] ),
+            FadeIn( eqn3[2] ),
+            new_v_label.animate.scale(1 / 0.7),
+            Ma.get_columns()[1].animate.set_color(BLACK),
+        )
+        self.play(
+            eqn3.animate.arrange()
         )
         self.wait()
