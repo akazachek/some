@@ -51,6 +51,7 @@ class linop(Scene):
         self.play(Write(v), Write(e1), Write(e2))
         self.wait()
         M1=np.array([[1, 1], [0, -1]])
+        M1_inv = np.linalg.inv(M1)
         Ma1 = Matrix( M1).to_corner(LEFT+UP)
         for bra in Ma1.get_brackets():
             bra.set_color(BLACK)
@@ -58,6 +59,7 @@ class linop(Scene):
             e.set_color(BLACK)
 
         M2=np.array([[-1, 0], [2, 1]])
+        M2_inv = np.linalg.inv(M2)
         Ma2 = Matrix(M2).to_corner(LEFT + UP)
         for bra in Ma2.get_brackets():
             bra.set_color(BLACK)
@@ -71,7 +73,7 @@ class linop(Scene):
         for e in Ma.get_entries():
             e.set_color(BLACK)
 
-        I = np.linalg.inv(np.matmul(M2,M1))
+        # I = np.linalg.inv(np.matmul(M2,M1))
 
         new_e1_label = Matrix([[1], [0]]).scale(0.7).next_to(e1, RIGHT + DOWN) #Automate this somehow
         new_e2_label = Matrix([[1], [1]]).scale(0.7).next_to(e2, RIGHT+ UP) #Automate
@@ -93,7 +95,15 @@ class linop(Scene):
                   )
         self.wait()
         self.play(
-            ReplacementTransform(Ma1,Ma2),
+            FadeOut(Ma1),
+            axes.animate.apply_matrix(M1_inv),
+            e1.animate.apply_matrix(M1_inv),
+            e2.animate.apply_matrix(M1_inv),
+            v.animate.apply_matrix(M1_inv)
+        )
+        self.wait()
+        self.play(
+            Write(Ma2),
             axes.animate.apply_matrix(M2),
             e1.animate.apply_matrix(M2),
             e2.animate.apply_matrix(M2),
@@ -102,10 +112,10 @@ class linop(Scene):
         self.wait()
         self.play(
             FadeOut(Ma2),
-            axes.animate.apply_matrix(I),
-            e1.animate.apply_matrix(I),
-            e2.animate.apply_matrix(I),
-            v.animate.apply_matrix(I)
+            axes.animate.apply_matrix(M2_inv),
+            e1.animate.apply_matrix(M2_inv),
+            e2.animate.apply_matrix(M2_inv),
+            v.animate.apply_matrix(M2_inv)
         )
         self.wait()
         self.play(FadeOut(v))
@@ -182,4 +192,5 @@ class linop(Scene):
         self.play(
             eqn3.animate.arrange()
         )
+
         self.wait()
