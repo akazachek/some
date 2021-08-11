@@ -1,0 +1,72 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      1750,         62]
+NotebookOptionsPosition[      1152,         42]
+NotebookOutlinePosition[      1550,         58]
+CellTagsIndexPosition[      1507,         55]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["SOME", "Title",
+ CellChangeTimes->{{3.8375174489747953`*^9, 
+  3.837517456509931*^9}},ExpressionUUID->"ad37d796-7073-4976-ba38-\
+bcbccc30466b"],
+
+Cell[CellGroupData[{
+
+Cell["Orthogonal Matrices", "Section",
+ CellChangeTimes->{{3.837517458591893*^9, 
+  3.837517464429978*^9}},ExpressionUUID->"2346f87c-d598-40a4-8b50-\
+3ba6ec19d402"],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.837517466607026*^9, 3.837517469002263*^9}, {
+  3.8375186540207357`*^9, 
+  3.837518654745193*^9}},ExpressionUUID->"603aadec-54c4-4d16-ad22-\
+c3d4147a85e4"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{808, 911},
+WindowMargins->{{Automatic, 197}, {27, Automatic}},
+FrontEndVersion->"12.2 for Mac OS X x86 (64-bit) (December 12, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"f34bb23b-ebeb-46f7-9497-404c049008a4"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 149, 3, 98, "Title",ExpressionUUID->"ad37d796-7073-4976-ba38-bcbccc30466b"],
+Cell[CellGroupData[{
+Cell[754, 29, 164, 3, 67, "Section",ExpressionUUID->"2346f87c-d598-40a4-8b50-3ba6ec19d402"],
+Cell[921, 34, 203, 4, 30, "Input",ExpressionUUID->"603aadec-54c4-4d16-ad22-c3d4147a85e4"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
