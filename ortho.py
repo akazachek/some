@@ -11,10 +11,11 @@ def set_matrix_color(M):
 
 # https://docs.manim.community/en/stable/reference/manim.scene.vector_space_scene.LinearTransformationScene.html
 # https://docs.manim.community/en/stable/examples.html
-class ortho(Scene):
+class ortho(MovingCameraScene):
     def construct(self):
         # Construct Mobjects
         self.camera.background_color = "#ece6e2"
+        self.camera.frame.save_state()
         axes1 = NumberPlane(
             x_range= [-5,5],
             y_range= [-5,5],
@@ -50,9 +51,9 @@ class ortho(Scene):
         eig1 = Vector(axes1.c2p(1,1,0),stroke_width=2, color=BLUE_E, buff=0 )
         eig2 = Vector(axes1.c2p(-1, 1, 0),stroke_width=2,  color=BLUE_E, buff=0)
 
-        labels1 = VGroup( MathTex("\\vec{v}", color=RED).next_to(v1, UP),
-                         MathTex("\\text{eigenvector 1}", color=BLUE_E ).next_to(eig1, RIGHT),
-                         MathTex("\\text{eigenvector 2}", color=BLUE_E).next_to(eig2, LEFT)
+        labels1 = VGroup( MathTex("\\vec{v}", color=RED).scale(0.6).next_to(v1, UP),
+                         MathTex("\\text{eigenvector 1}", color=BLUE_E ).scale(0.6).next_to(eig1, RIGHT),
+                         MathTex("\\text{eigenvector 2}", color=BLUE_E).scale(0.6).next_to(eig2, LEFT)
                          )
 
         intro = VGroup(Ma, v)
@@ -76,6 +77,7 @@ class ortho(Scene):
         self.play(Create(axes1))
 
         self.play(
+            self.camera.frame.animate.scale(0.6),
             Write(labels1),
             Write(v1),
             Write(eig1),
@@ -95,6 +97,7 @@ class ortho(Scene):
         self.play(Write(Ma.to_corner(LEFT+UP)))
         self.wait(2)
         self.play(
+            Restore(self.camera.frame),
             ReplacementTransform(v1,v_after),
             ReplacementTransform(proj1, eig1_after),
             ReplacementTransform(proj2,eig2_after)
