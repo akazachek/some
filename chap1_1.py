@@ -3,6 +3,14 @@ import numpy as np
 
 # https://docs.manim.community/en/stable/reference/manim.scene.vector_space_scene.LinearTransformationScene.html
 # https://docs.manim.community/en/stable/examples.html
+
+def set_matrix_color(M):
+    for bra in M.get_brackets():
+        bra.set_color(BLACK)
+    for e in M.get_entries():
+        e.set_color(BLACK)
+
+
 class linop(Scene):
     def construct(self):
         # Construct Mobjects
