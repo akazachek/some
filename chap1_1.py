@@ -35,6 +35,9 @@ class linop(Scene):
             num.set_color(BLACK)
             num.scale(0.7)
 
+        eqn3 = MathTex( "A", r"(a\vec{v}_1 + b\vec{v}_2) =  ","a","A","\\vec{v}_1 +","b","A","\\vec{v}_2" , color=BLACK  )
+        eqn3_trans = MathTex( "T", r"(a\vec{v}_1 + b\vec{v}_2) =  ","a","T","\\vec{v}_1 +","b","T","\\vec{v}_2" , color=BLACK  )
+
         eqn1 = MathTex( "\\vec{v}"," = a","\\vec{e_1}"," + b ","\\vec{e_2}",color = BLACK )
         eqn1.set_color_by_tex("\\vec{e_", RED)
 
