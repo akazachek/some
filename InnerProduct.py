@@ -45,7 +45,7 @@ class InnerProduct(Scene):
 
         # positive definiteness 
 
-        posdefText = Text("Postive-definiteness:", color = BLACK).scale(1)
+        posdefText = Text("Postive-definiteness:", color = BLACK).scale(1).shift(UP)
 
         nonzeroTeX = MathTex(r"x {{ \neq }} 0\Longrightarrow \langle x,x\rangle {{ > }} 0", color = BLACK)
         nonzeroTeX.next_to(posdefText, DOWN, buff=1).scale(2)
@@ -56,6 +56,9 @@ class InnerProduct(Scene):
         zeroTeX.next_to(posdefText, DOWN, buff=1).scale(2)
         zeroTeX[1].set_color(RED)
         zeroTeX[3].set_color(BLUE)
+
+        # norm
+        norm = MathTex(r"||x||=\sqrt{\langle x,x\rangle}", color=BLACK).scale(2)
 
         # animation
 
@@ -83,5 +86,10 @@ class InnerProduct(Scene):
         self.play(Transform(nonzeroTeX, zeroTeX))
         self.wait(2)
         self.play(FadeOut(posdefText), FadeOut(nonzeroTeX))
+        self.wait(1)
+        # fourth
+        self.play(FadeIn(norm))
+        self.wait(2)
+        self.play(FadeOut(norm))
         self.wait(1)
     
