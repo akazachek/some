@@ -37,11 +37,10 @@ class DotProduct(Scene):
 
         uvDot1 = MathTex(r"\begin{bmatrix} 1 \\ 2 \end{bmatrix}\cdot \begin{bmatrix} 3 \\ 1 \end{bmatrix}", color=BLACK).shift(RIGHT * 4 + UP * 3)
         uvDot2 = MathTex(r"= 1\cdot 3+2\cdot 1", color=BLACK).next_to(uvDot1, DOWN).shift(LEFT * 0.2)
-        uvDot3 = MathTex("=6", color=BLACK).next_to(uvDot2, DOWN).shift(LEFT)
+        uvDot3 = MathTex("=5", color=BLACK).next_to(uvDot2, DOWN).shift(LEFT)
         uvDotProd = VGroup(uvDot1, uvDot2, uvDot3)
 
         # second vectors
-
         uPrime = Arrow(axes.c2p(0,0,0), axes.c2p(-0.67,2,0), color=RED, buff=0, stroke_width=3.5)
         uPvAngle1 = Line(axes.c2p(0.3,0.1,0), axes.c2p(0.18,0.46,0), color=RED)
         uPvAngle2 = Line(axes.c2p(0.18,0.46,0), axes.c2p(-0.12,0.36,0), color=RED)
@@ -55,6 +54,13 @@ class DotProduct(Scene):
             *[Transform(uvDotProd[i], uPvDotProd[i]) for i in range(3)]
         )
 
+        # norm
+        vNorm1 = MathTex(r"||v||^2 = \begin{bmatrix} 3 \\ 1 \end{bmatrix} \cdot \begin{bmatrix} 3 \\ 1\end{bmatrix}", color=BLACK).shift(RIGHT * 4 + UP * 3)
+        vNorm2 = MathTex(r"=3\cdot 3+1\cdot 1", color=BLACK).next_to(vNorm1, DOWN).shift(RIGHT * 0.83)
+        vNorm3 = MathTex(r"=10", color=BLACK).next_to(vNorm2, DOWN).shift(LEFT * 0.9)
+        vNorm = VGroup(vNorm1, vNorm2, vNorm3)
+        vNorm4 = MathTex(r"||v||=\sqrt{10}", color=BLACK).shift(RIGHT * 4 + UP * 3)
+
         # animation
         self.play(GrowFromCenter(axes))
         self.play(Write(u), Write(uNode), Write(v), Write(vNode))
@@ -66,3 +72,10 @@ class DotProduct(Scene):
         self.wait(3)
         self.play(Transform(u, uPrime), Transform(uvAngle, uPvAngle), uPvDotProdAnim, ApplyFunction(shiftMethod, uNode))
         self.wait(3)
+        self.play(FadeOut(u), FadeOut(uvAngle), FadeOut(uvDotProd), FadeOut(uNode))
+        self.wait(1)
+        for i in range(3):
+            self.play(Write(vNorm[i]))
+            self.wait(0.3)
+        self.play(FadeOut(vNorm[1]), FadeOut(vNorm[2]), Transform(vNorm[0], vNorm4))
+        self.wait(2)
